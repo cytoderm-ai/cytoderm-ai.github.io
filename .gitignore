@@ -13,13 +13,14 @@ dist
 dist-ssr
 coverage
 *.local
+package-lock.json
+.cache
 
 /cypress/videos/
 /cypress/screenshots/
 
 # Editor directories and files
-.vscode/*
-!.vscode/extensions.json
+.vscode
 .idea
 *.suo
 *.ntvs*
@@ -27,3 +28,4 @@ coverage
 *.sln
 *.sw?
 yarn.lock
+demo
