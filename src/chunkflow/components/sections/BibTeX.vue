@@ -5,7 +5,7 @@ export default {
       bibtex: [
         '@misc{chunkflow2025,',
         '    title={ChunkFlow: Seam-Aware Chunked Execution for Vision-Language Action Models},',
-        '    author={ChunkFlow Team},',
+        '    author={Zhao Yang and Yinan Shi and Mingyuan Yao and Wenyao Xue and Yawei Jueluo and Longjun Liu},',
         '    howpublished={\\url{https://cytoderm-ai.github.io/chunkflow}},',
         '    year={2025}',
         '}',

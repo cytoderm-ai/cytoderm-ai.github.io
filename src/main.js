@@ -9,6 +9,36 @@ const app = createApp(App)
 app.use(ElementPlus)
 app.use(router)
 
+function handleHistoryFallback() {
+  if (typeof window === 'undefined') {
+    return Promise.resolve()
+  }
+
+  let redirectPath = null
+
+  try {
+    redirectPath = window.sessionStorage.getItem('spa-fallback-path')
+    if (redirectPath) {
+      window.sessionStorage.removeItem('spa-fallback-path')
+    }
+  } catch (error) {
+    redirectPath = null
+  }
+
+  if (!redirectPath) {
+    return Promise.resolve()
+  }
+
+  const currentFullPath = `${window.location.pathname}${window.location.search}${window.location.hash}`
+
+  if (redirectPath === currentFullPath) {
+    return Promise.resolve()
+  }
+
+  // Preserve the originally requested route after GitHub Pages fallback.
+  return router.replace(redirectPath).catch(() => undefined)
+}
+
 // 路由导航守卫 - 动态修改网页标题
 router.beforeEach((to, from, next) => {
   // 根据路由路径设置标题
@@ -20,4 +50,7 @@ router.beforeEach((to, from, next) => {
   next()
 })
 
-app.mount('#app')
+handleHistoryFallback().finally(() => {
+  app.mount('#app')
+})
+

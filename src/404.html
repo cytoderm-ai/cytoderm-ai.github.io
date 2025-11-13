@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Redirecting...</title>
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="refresh" content="0; url=/">
+    <script>
+      (function () {
+        var path = window.location.pathname;
+        var query = window.location.search || '';
+        var hash = window.location.hash || '';
+        var fullPath = path + query + hash;
+        if (fullPath && fullPath !== '/' && fullPath !== '/index.html') {
+          try {
+            window.sessionStorage.setItem('spa-fallback-path', fullPath);
+          } catch (error) {
+            // If sessionStorage is unavailable we silently ignore the error.
+          }
+        }
+        window.location.replace('/');
+      })();
+    </script>
+  </head>
+  <body>
+    <noscript>This site requires JavaScript. If you were redirected here, please enable JavaScript and retry.</noscript>
+  </body>
+</html>

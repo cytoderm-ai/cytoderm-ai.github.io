@@ -1,5 +1,68 @@
 <script>
 export default {
+  methods: {
+    tableRowClassName({ row }) {
+      if (row.highlight) {
+        return 'highlight-row'
+      }
+      return ''
+    },
+    // 根据LaTeX表格中的\textbf{}判断是否是最佳值
+    isBestValueCalvin(column, value) {
+      if (column === 'method' || column === 'type') return false
+
+      const numValue = parseFloat(value)
+
+      // CALVIN表格中的最佳值（根据LaTeX \textbf{}）
+      const bestValues = {
+        success: 4.54,    // FLOWER最佳
+        msd1: 0.075,      // ChunkFlow最佳
+        msd2: 0.154,      // ChunkFlow最佳
+        msd3: 0.496,      // GR-1最佳 (0.496 vs ChunkFlow 0.512)
+        bjump: 0.097,     // GR-1最佳 (0.097 vs ChunkFlow 0.209)
+        bratio: 1.094,    // HULC最佳 (1.094 vs ChunkFlow 1.471)
+        hf: 0.431,        // ChunkFlow最佳
+        tv: 0.001         // ChunkFlow最佳
+      }
+
+      return bestValues[column] !== undefined && Math.abs(numValue - bestValues[column]) < 0.0001
+    },
+
+    isBestValueLibero(column, value) {
+      if (column === 'method' || column === 'type') return false
+
+      const numValue = parseFloat(value)
+
+      // LIBERO表格中的最佳值（根据LaTeX \textbf{}）
+      const bestValues = {
+        success: 92.6,    // PI0.5最佳
+        msd1: 0.042,      // ChunkFlow最佳
+        msd2: 0.197,      // ChunkFlow最佳
+        msd3: 0.235,      // ChunkFlow最佳
+        bjump: 0.082,     // ChunkFlow最佳
+        bratio: 0.082,    // ChunkFlow最佳
+        hf: 0.135,        // ChunkFlow最佳
+        tv: 0.011,        // ChunkFlow最佳
+        arl: 4.43         // ChunkFlow最佳
+      }
+
+      return bestValues[column] !== undefined && Math.abs(numValue - bestValues[column]) < 0.0001
+    },
+    // CALVIN 表格单元格样式
+    calvinCellClassName({ row, column }) {
+      if (this.isBestValueCalvin(column.property, row[column.property])) {
+        return 'best-value-cell'
+      }
+      return ''
+    },
+    // LIBERO 表格单元格样式
+    liberoCellClassName({ row, column }) {
+      if (this.isBestValueLibero(column.property, row[column.property])) {
+        return 'best-value-cell'
+      }
+      return ''
+    }
+  },
   data() {
     return {
       images: [
@@ -86,10 +149,17 @@ export default {
               <div class="tab-content table-content">
                 <h3 class="table-caption">Main results on CALVIN ABC-D benchmark</h3>
                 <div class="table-wrapper">
-                  <el-table :data="calvinData" stripe style="width: 100%" :header-cell-style="{background: '#f5f7fa', fontFamily: 'MyFont'}">
+                  <el-table
+                    :data="calvinData"
+                    stripe
+                    style="width: 100%"
+                    :header-cell-style="{background: '#f5f7fa', fontFamily: 'MyFont'}"
+                    :row-class-name="tableRowClassName"
+                    :cell-class-name="calvinCellClassName"
+                  >
                     <el-table-column prop="method" label="Method" min-width="140">
                       <template #default="scope">
-                        <span :class="{ 'highlight-row': scope.row.highlight }">{{ scope.row.method }}</span>
+                        <span :class="{ 'highlight-text': scope.row.highlight }">{{ scope.row.method }}</span>
                       </template>
                     </el-table-column>
                     <el-table-column prop="success" label="Success ↑" min-width="85" sortable />
@@ -110,10 +180,17 @@ export default {
               <div class="tab-content table-content">
                 <h3 class="table-caption">Cross-Dataset Generalization on LIBERO benchmark</h3>
                 <div class="table-wrapper">
-                  <el-table :data="liberoData" stripe style="width: 100%" :header-cell-style="{background: '#f5f7fa', fontFamily: 'MyFont'}">
+                  <el-table
+                    :data="liberoData"
+                    stripe
+                    style="width: 100%"
+                    :header-cell-style="{background: '#f5f7fa', fontFamily: 'MyFont'}"
+                    :row-class-name="tableRowClassName"
+                    :cell-class-name="liberoCellClassName"
+                  >
                     <el-table-column prop="method" label="Method" min-width="130">
                       <template #default="scope">
-                        <span :class="{ 'highlight-row': scope.row.highlight }">{{ scope.row.method }}</span>
+                        <span :class="{ 'highlight-text': scope.row.highlight }">{{ scope.row.method }}</span>
                       </template>
                     </el-table-column>
                     <el-table-column prop="success" label="Long SR(%) ↑" min-width="105" sortable />
@@ -170,9 +247,29 @@ export default {
   width: 100%;
 }
 
-.highlight-row {
-  color: #e74c3c;
+/* 高亮文本样式 */
+.highlight-text {
+  color: #2c3e50;
   font-weight: 700;
+}
+
+/* 高亮行背景样式 - 改为浅蓝色 */
+:deep(.el-table .highlight-row) {
+  background-color: #e3f2fd !important;
+}
+
+:deep(.el-table .highlight-row:hover > td) {
+  background-color: #bbdefb !important;
+}
+
+:deep(.el-table .highlight-row > td) {
+  background-color: #e3f2fd !important;
+}
+
+/* 最佳值单元格样式 - 加粗并字号更大 */
+:deep(.el-table .best-value-cell) {
+  font-weight: 700 !important;
+  font-size: clamp(12px, 0.95vw, 16px) !important;
 }
 
 :deep(.el-table) {
@@ -195,11 +292,6 @@ export default {
 
 :deep(.el-table td) {
   padding: 8px 0;
-}
-
-:deep(.el-table .highlight-row) {
-  color: #e74c3c;
-  font-weight: 700;
 }
 
 :deep(.el-table .caret-wrapper) {

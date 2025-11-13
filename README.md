@@ -32,10 +32,10 @@ npm run build
 
 ## ➕ 添加新项目
 
-1. 创建 `src/your-project/` 和 `public/your-project/` 文件夹
+1. 创建 `src/new-paper/` 和 `public/new-paper/` 文件夹
 2. 在 `src/index.js` 中注册路由
 3. 在 `src/main.js` 中配置页面标题
 
 ## 🔗 演示
 
-https://cytoderm-ai.github.io/chunkflow
+https://cytoderm-ai.github.io
