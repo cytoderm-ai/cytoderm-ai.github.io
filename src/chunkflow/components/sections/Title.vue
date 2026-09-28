@@ -2,7 +2,6 @@
 import { ElIcon } from "element-plus";
 import {
   Document,
-  Files,
   MagicStick,
   Picture,
   DataAnalysis,
@@ -35,7 +34,7 @@ const addresses = [
   {
     // address_flag: "1",
     name: "Cytoderm AI",
-    homepage: "https://www.Cytoderm.AI/",
+    homepage: "https://cybopal.com/",
   },
   // {
   //   // address_flag: "2",
@@ -54,16 +53,10 @@ const addresses = [
 // 提供引导资料链接
 const buttons = [
   {
-    disabled: true,
+    disabled: false,
     name: "Paper",
-    link: "#",
+    link: "https://arxiv.org/abs/2607.12992",
     component: Document,
-  },
-  {
-    disabled: true,
-    name: "Code",
-    link: "#",
-    component: Files,
   },
 ];
 </script>

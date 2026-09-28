@@ -3,11 +3,14 @@ export default {
   data() {
     return {
       bibtex: [
-        '@misc{chunkflow2025,',
-        '    title={ChunkFlow: Seam-Aware Chunked Execution for Vision-Language Action Models},',
+        '@misc{yang2026chunkflowcontinuityconsistentchunkedpolicy,',
+        '    title={ChunkFlow: Towards Continuity-Consistent Chunked Policy Learning},',
         '    author={Zhao Yang and Yinan Shi and Mingyuan Yao and Wenyao Xue and Yawei Jueluo and Longjun Liu},',
-        '    howpublished={\\url{https://cytoderm-ai.github.io/chunkflow}},',
-        '    year={2025}',
+        '    year={2026},',
+        '    eprint={2607.12992},',
+        '    archivePrefix={arXiv},',
+        '    primaryClass={cs.RO},',
+        '    url={https://arxiv.org/abs/2607.12992},',
         '}',
       ],
     };

@@ -3,13 +3,13 @@
 // 公司主页
 const logo = {
     name: "/main/logo_lang.png",
-    link: "https://cytoderm.ai/",
+    link: "https://cybopal.com/",
 }
 
 // 右侧菜单项
 const right_items = {
     About: {
-        link: "https://cybopal.com/pages/contact",
+        link: "https://cybopal.com/about",
         name: "About Us"
     },
 }
